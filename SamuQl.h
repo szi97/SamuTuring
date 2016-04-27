@@ -1153,10 +1153,10 @@ public:
         return ss.str();
 
     }
+/*
+    std::string printSortedRules() { //Rendez
 
-    std::string printSortedRules() {
-
-        std::vector<std::pair<std::pair<int, int>, int>> tmp;
+        std::vector<std::pair<std::pair<int, int>, int>> tmp; //std:pair két intből csinál egy párt, vektor párokat fog tartalmazni
 
         for ( auto& rule : rules ) {
             std::pair<std::pair<int, int>, int> p {{rule.first.first, rule.first.second}, rule.second};
@@ -1168,8 +1168,28 @@ public:
         [=] ( auto&& t1, auto&&t2 ) {
             return t1.second > t2.second;
         }
-        );
+        );*/
+	//Truple***********************************************************************************************************************
+	std::string printSortedRules() {
 
+        std::vector<std::tuple<int, int, int> > tmp;//std::pair kiterjesztése
+
+        for ( auto& rule : rules ) {
+            std::tuple<int, int, int> p;// {{rule.first.first, rule.first.second}, rule.second};
+	    //get-el indexelünk
+	    std::get<0>(p)=rule.first.first;
+	    std::get<1>(p)=rule.first.second;
+	    std::get<2>(p)=rule.second;
+            tmp.push_back ( p );
+        }
+
+        std::sort (
+            std::begin ( tmp ), std::end ( tmp ),
+        [=] ( auto&& t1, auto&& t2 ) {
+            return std::get<2>(t1) > std::get<2>(t2);
+        }
+        );
+//***************************************************************************************************************************************
         std::stringstream ss;
 
         ss << tmp.size();
